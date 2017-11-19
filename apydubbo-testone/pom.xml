@@ -1,30 +1,82 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.apeny</groupId>
-  <artifactId>apydubbo-testone</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <modules>
-    <module>apydubbo-testone-consumer</module>
-    <module>apydubbo-testone-provider</module>
-    <module>apydubbo-testone-api</module>
-  </modules>
-  <packaging>pom</packaging>
+    <groupId>com.apeny</groupId>
+    <artifactId>apydubbo-testone</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <modules>
+        <module>apydubbo-testone-consumer</module>
+        <module>apydubbo-testone-provider</module>
+        <module>apydubbo-testone-api</module>
+    </modules>
+    <packaging>pom</packaging>
 
-  <name>apydubbo-testone</name>
-  <url>http://maven.apache.org</url>
+    <name>apydubbo-testone</name>
+    <url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>4.2.2.RELEASE</spring.version>
+        <dubbo.version>2.5.7</dubbo.version>
+        <apydubbo-testone-api.version>1.0.0-SNAPSHOT</apydubbo-testone-api.version>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/config</directory>
+                <targetPath>config</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.apeny</groupId>
+                <artifactId>apydubbo-testone-api</artifactId>
+                <version>${apydubbo-testone-api.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
