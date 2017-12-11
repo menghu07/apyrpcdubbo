@@ -11,11 +11,11 @@ public class DemoServiceImpl implements DemoService {
     @Override
     public String sayHello(String name)
     {
-        /*try {
+        try {
             TimeUnit.SECONDS.sleep(15);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
         System.out.println("say hello consume " + 15);
         return "hello from provider: " + name;
     }
