@@ -12,11 +12,11 @@ public class DemoServiceImpl implements DemoService {
     public String sayHello(String name)
     {
         try {
-            TimeUnit.SECONDS.sleep(15);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("say hello consume " + 15);
+        System.out.println("say hello consume " + 5);
         return "hello from provider: " + name;
     }
 }
