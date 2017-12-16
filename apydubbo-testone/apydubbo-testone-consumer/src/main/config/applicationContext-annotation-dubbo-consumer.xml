@@ -3,11 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-    <dubbo:application name="demo-consumer"/>
+    <dubbo:application name="annotation-demo-consumer"/>
     <dubbo:registry address="multicast://224.5.6.7:1234"/>
-    <dubbo:protocol name="dubbo" port="20881"/>
-    <dubbo:reference id="demoService" interface="com.apeny.api.service.DemoService" cluster="failfast">
-        <dubbo:method name="sayHello" timeout="3000"></dubbo:method>
-    </dubbo:reference>
-
+    <dubbo:annotation package="com.apeny.consumer.annotationconfig"/>
 </beans>
