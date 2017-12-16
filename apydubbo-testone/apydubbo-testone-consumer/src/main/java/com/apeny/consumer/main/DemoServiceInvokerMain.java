@@ -16,5 +16,7 @@ public class DemoServiceInvokerMain {
         context.start();
         DemoService demoService = (DemoService) context.getBean("demoService");
         System.out.println(" i wanna see dubbo#  " + demoService.sayHello("consumer say hello to u"));
+        DemoService p2pDemoService = (DemoService) context.getBean("p2pDemoService");
+        System.out.println("p2p Demo Service: " + p2pDemoService.sayHello("p2p consumer say hello to provider"));
     }
 }

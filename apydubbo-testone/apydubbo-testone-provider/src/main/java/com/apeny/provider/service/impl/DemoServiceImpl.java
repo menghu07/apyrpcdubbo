@@ -12,7 +12,7 @@ public class DemoServiceImpl implements DemoService {
     public String sayHello(String name)
     {
         try {
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.NANOSECONDS.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

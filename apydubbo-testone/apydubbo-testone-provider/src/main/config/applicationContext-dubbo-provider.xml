@@ -4,8 +4,16 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:application name="demo-provider"/>
-    <dubbo:registry address="multicast://224.5.6.7:1234"/>
+    <!--既注册又订阅-->
+    <dubbo:registry id="twomulticast" address="multicast://224.5.6.7:1234"/>
     <dubbo:protocol name="dubbo" port="20880"/>
     <dubbo:service interface="com.apeny.api.service.DemoService" ref="demoService"/>
     <bean id="demoService" class="com.apeny.provider.service.impl.DemoServiceImpl"/>
+
+    <!--只订阅不注册-->
+    <!--<dubbo:registry id="onlysubcribe" address="multicast://224.111.2.3:9090" register="false"/>-->
+
+    <!--只注册不订阅-->
+    <!--<dubbo:registry id="onlysubcribe" address="multicast://224.111.2.3:9090" subscribe="false"/>-->
+
 </beans>
