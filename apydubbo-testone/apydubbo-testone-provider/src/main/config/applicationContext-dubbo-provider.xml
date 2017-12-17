@@ -5,10 +5,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:application name="demo-provider"/>
     <!--既注册又订阅-->
-    <dubbo:registry id="twomulticast" address="multicast://224.5.6.7:1234"/>
+    <dubbo:registry id="twomulticast" address="multicast://224.5.6.7:1234" />
     <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="rmi" port="1099"/>
     <dubbo:service interface="com.apeny.api.service.DemoService" ref="demoService"/>
     <bean id="demoService" class="com.apeny.provider.service.impl.DemoServiceImpl"/>
+
+    <!--多协议暴露，使用rmi-->
+    <dubbo:service interface="com.apeny.api.service.DemoService" ref="rmiDemoService" protocol="rmi"/>
+    <bean id="rmiDemoService" class="com.apeny.provider.service.impl.DemoServiceImpl"/>
 
     <!--只订阅不注册-->
     <!--<dubbo:registry id="onlysubcribe" address="multicast://224.111.2.3:9090" register="false"/>-->
@@ -16,4 +21,17 @@
     <!--只注册不订阅-->
     <!--<dubbo:registry id="onlysubcribe" address="multicast://224.111.2.3:9090" subscribe="false"/>-->
 
+    <!--不同服务使用不同注册中心-->
+    <dubbo:registry id="registry1" address="multicast://224.111.2.4:9090"/>
+    <dubbo:registry id="registry2" address="multicast://224.111.2.5:9092"/>
+    <dubbo:service interface="com.apeny.api.service.LoginService" registry="registry1" ref="loginServiceImpl"/>
+    <bean id="loginServiceImpl" class="com.apeny.provider.service.impl.LoginServiceImpl"/>
+    <dubbo:service interface="com.apeny.api.service.HelloService" registry="registry2,registry1" ref="helloServiceImpl"/>
+    <bean id="helloServiceImpl" class="com.apeny.provider.service.impl.HelloServiceImpl"/>
+
+    <!--服务分组-->
+    <dubbo:service interface="com.apeny.api.service.IndexService" group="index1" ref="indexImpl1"/>
+    <bean id="indexImpl1" class="com.apeny.provider.service.impl.IndexService1Impl"/>
+    <dubbo:service interface="com.apeny.api.service.IndexService" group="index2" ref="indexImpl2"/>
+    <bean id="indexImpl2" class="com.apeny.provider.service.impl.IndexService2Impl"/>
 </beans>

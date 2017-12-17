@@ -12,4 +12,19 @@
     <dubbo:reference id="p2pDemoService" interface="com.apeny.api.service.DemoService" url="dubbo://192.168.0.100:20880">
         <dubbo:method name="sayHello"></dubbo:method>
     </dubbo:reference>
+
+    <!--多服务,多协议-->
+    <dubbo:protocol name="rmi" port="9029"></dubbo:protocol>
+    <dubbo:reference id="rmiDemoServiceClient" interface="com.apeny.api.service.DemoService" protocol="rmi"/>
+
+    <!--多注册中心,多引用-->
+    <dubbo:registry id="registry1" address="multicast://224.111.2.4:9090"/>
+    <dubbo:registry id="registry2" address="multicast://224.111.2.5:9092"/>
+    <dubbo:reference id="hello1" interface="com.apeny.api.service.HelloService" registry="registry1"/>
+    <dubbo:reference id="hello2" interface="com.apeny.api.service.HelloService" registry="registry2"/>
+
+    <!--服务分组-->
+    <dubbo:reference interface="com.apeny.api.service.IndexService" group="index1" id="index1"/>
+    <dubbo:reference interface="com.apeny.api.service.IndexService" group="index1,index2" id="index12" merger="true"/>
+
 </beans>

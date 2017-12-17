@@ -20,6 +20,8 @@
         <spring.version>4.2.2.RELEASE</spring.version>
         <dubbo.version>2.5.7</dubbo.version>
         <apydubbo-testone-api.version>1.0.0-SNAPSHOT</apydubbo-testone-api.version>
+        <validation-api.version>1.1.0.Final</validation-api.version>
+        <hibernate-validation.version>5.4.2.Final</hibernate-validation.version>
     </properties>
 
     <build>
@@ -76,6 +78,16 @@
                 <groupId>com.apeny</groupId>
                 <artifactId>apydubbo-testone-api</artifactId>
                 <version>${apydubbo-testone-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validation.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
