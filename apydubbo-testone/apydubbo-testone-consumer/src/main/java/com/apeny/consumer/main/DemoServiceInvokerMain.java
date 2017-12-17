@@ -1,12 +1,18 @@
 package com.apeny.consumer.main;
 
+import com.alibaba.dubbo.rpc.RpcException;
 import com.apeny.api.service.DemoService;
 import com.apeny.api.service.HelloService;
 import com.apeny.api.service.IndexService;
 import com.apeny.api.service.RmiDemoService;
+import com.apeny.api.service.argumentvalidation.Validation1Service;
+import com.apeny.argument.ValidationParameter;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.rmi.RemoteException;
+import java.util.Set;
 
 /**
  * Created by apeny on 2017/11/19.
@@ -40,5 +46,24 @@ public class DemoServiceInvokerMain {
 
         IndexService index12Service = context.getBean("index12", IndexService.class);
         System.out.println("index12 group merge index: " + index12Service.indexes());
+
+        //参数校验
+        //分组验证
+        Validation1Service validation1Service = context.getBean("validation1", Validation1Service.class);
+        ValidationParameter parameter = new ValidationParameter();
+        parameter.setName("biles wiley");
+        parameter.setAge(20);
+        parameter.setEmail("222@qq.com");
+
+        try {
+            validation1Service.save(parameter);
+        } catch (RpcException e) {
+            System.out.println(e);
+            ConstraintViolationException ve = (ConstraintViolationException) e.getCause();
+            Set<ConstraintViolation<?>> violations = ve.getConstraintViolations();
+            System.out.println("error size: " + violations.size());
+            System.out.println("error message: " + violations);
+            throw e;
+        }
     }
 }

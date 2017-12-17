@@ -34,4 +34,10 @@
     <bean id="indexImpl1" class="com.apeny.provider.service.impl.IndexService1Impl"/>
     <dubbo:service interface="com.apeny.api.service.IndexService" group="index2" ref="indexImpl2"/>
     <bean id="indexImpl2" class="com.apeny.provider.service.impl.IndexService2Impl"/>
+
+    <!--参数校验-->
+    <dubbo:service interface="com.apeny.api.service.argumentvalidation.Validation1Service" validation="true" ref="validation1"/>
+    <bean id="validation1" class="com.apeny.provider.service.impl.validation.ValidationServiceImpl"/>
+    <dubbo:service interface="com.apeny.api.service.argumentvalidation.Validation2Service" validation="true" ref="validation2"/>
+    <bean id="validation2" class="com.apeny.provider.service.impl.validation.ValidationService2Impl"/>
 </beans>
