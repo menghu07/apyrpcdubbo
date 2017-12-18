@@ -9,7 +9,7 @@
     <dubbo:reference id="demoService" interface="com.apeny.api.service.DemoService" cluster="failfast">
         <dubbo:method name="sayHello" timeout="10000"></dubbo:method>
     </dubbo:reference>
-    <dubbo:reference id="p2pDemoService" interface="com.apeny.api.service.DemoService" url="dubbo://192.168.0.100:20880">
+    <dubbo:reference id="p2pDemoService" interface="com.apeny.api.service.DemoService" url="dubbo://127.0.0.1:20880">
         <dubbo:method name="sayHello"></dubbo:method>
     </dubbo:reference>
 
