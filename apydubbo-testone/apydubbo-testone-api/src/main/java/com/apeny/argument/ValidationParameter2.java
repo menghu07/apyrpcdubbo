@@ -15,7 +15,7 @@ public class ValidationParameter2 implements Serializable {
     private static final long serialVersionUID = 192L;
 
     @NotNull
-    @Size.List({@Size(min = 1, max = 5), @Size(min = 10, max = 20)})
+    @Size.List({@Size(min = 1), @Size(max = 20)})
     private String name;
 
     //只有Save会验证

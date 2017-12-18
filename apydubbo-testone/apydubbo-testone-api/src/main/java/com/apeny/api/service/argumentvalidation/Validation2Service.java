@@ -1,6 +1,6 @@
 package com.apeny.api.service.argumentvalidation;
 
-import com.apeny.argument.ValidationParameter;
+import com.apeny.argument.ValidationParameter2;
 
 import javax.validation.GroupSequence;
 
@@ -11,8 +11,8 @@ public interface Validation2Service {
 
     @GroupSequence({Update.class})
     @interface Save{}
-    void save(ValidationParameter parameter);
+    void save(ValidationParameter2 parameter);
 
     @interface Update{}
-    void update(ValidationParameter parameter);
+    void update(ValidationParameter2 parameter);
 }

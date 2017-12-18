@@ -13,7 +13,6 @@ public class ValidationParameter implements Serializable {
 
     private static final long serialVersionUID = 192L;
 
-
     @NotNull
     @Size.List({@Size(min = 1), @Size(max = 20)})
     private String name;

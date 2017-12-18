@@ -6,7 +6,9 @@ import com.apeny.api.service.HelloService;
 import com.apeny.api.service.IndexService;
 import com.apeny.api.service.RmiDemoService;
 import com.apeny.api.service.argumentvalidation.Validation1Service;
+import com.apeny.api.service.argumentvalidation.Validation2Service;
 import com.apeny.argument.ValidationParameter;
+import com.apeny.argument.ValidationParameter2;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.validation.ConstraintViolation;
@@ -55,8 +57,14 @@ public class DemoServiceInvokerMain {
         parameter.setAge(20);
         parameter.setEmail("222@qq.com");
 
+        Validation2Service validation2Service = context.getBean("validation2", Validation2Service.class);
+        ValidationParameter2 parameter2 = new ValidationParameter2();
+        parameter2.setName("biles wiley");
+        parameter2.setAge(89);
+        parameter2.setEmail("829388494@qq.com");
         try {
             validation1Service.save(parameter);
+            validation2Service.save(parameter2);
         } catch (RpcException e) {
             System.out.println(e);
             ConstraintViolationException ve = (ConstraintViolationException) e.getCause();
