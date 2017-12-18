@@ -21,7 +21,7 @@
         <dubbo.version>2.5.7</dubbo.version>
         <apydubbo-testone-api.version>1.0.0-SNAPSHOT</apydubbo-testone-api.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
-        <hibernate-validation.version>4.2.0.Final</hibernate-validation.version>
+        <hibernate-validation.version>5.2.0.Final</hibernate-validation.version>
         <el-api.version>3.0.0</el-api.version>
     </properties>
 
