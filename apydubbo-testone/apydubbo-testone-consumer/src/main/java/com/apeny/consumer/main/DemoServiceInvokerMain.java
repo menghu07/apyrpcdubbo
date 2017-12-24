@@ -1,6 +1,7 @@
 package com.apeny.consumer.main;
 
 import com.alibaba.dubbo.rpc.RpcException;
+import com.alibaba.dubbo.rpc.service.GenericService;
 import com.apeny.api.service.DemoService;
 import com.apeny.api.service.HelloService;
 import com.apeny.api.service.IndexService;
@@ -9,11 +10,14 @@ import com.apeny.api.service.argumentvalidation.Validation1Service;
 import com.apeny.api.service.argumentvalidation.Validation2Service;
 import com.apeny.argument.ValidationParameter;
 import com.apeny.argument.ValidationParameter2;
+import com.apeny.consumer.domain.interfacepack.Person;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -29,6 +33,7 @@ public class DemoServiceInvokerMain {
         context.start();
         DemoService demoService = (DemoService) context.getBean("demoService");
         System.out.println(" i wanna see dubbo#  " + demoService.sayHello("consumer say hello to u"));
+        System.out.println("second call demo# " + demoService.sayHello("consumer say hello to u"));
         DemoService p2pDemoService = (DemoService) context.getBean("p2pDemoService");
         System.out.println("p2p Demo Service: " + p2pDemoService.sayHello("p2p consumer say hello to provider"));
 
@@ -73,5 +78,15 @@ public class DemoServiceInvokerMain {
             System.out.println("error message: " + violations);
             throw e;
         }
+
+        //泛化参数
+        GenericService genericService = (GenericService) context.getBean("customService");
+        Map<String, Object> person = new HashMap<>();
+        person.put("class", "com.apeny.consumer.domain.PersonImpl");
+        person.put("name", "nike");
+        person.put("password", "york");
+        Object result = genericService.$invoke("findPerson", new String[]{"com.apeny.provider.domain.interfacepack.Person"}, new Object[]{person});
+        System.out.println("result generic service: " + result);
+
     }
 }

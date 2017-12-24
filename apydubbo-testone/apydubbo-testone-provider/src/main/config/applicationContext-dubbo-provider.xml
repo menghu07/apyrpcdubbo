@@ -40,4 +40,7 @@
     <bean id="validation1" class="com.apeny.provider.service.impl.validation.ValidationServiceImpl"/>
     <dubbo:service interface="com.apeny.api.service.argumentvalidation.Validation2Service" validation="true" ref="validation2"/>
     <bean id="validation2" class="com.apeny.provider.service.impl.validation.ValidationService2Impl"/>
+
+    <bean id="customServiceImpl" class="com.apeny.provider.service.impl.genericservice.CustomGenericService"/>
+    <dubbo:service id="customService" interface="com.apeny.api.service.generic.CustomService" ref="customServiceImpl"/>
 </beans>
