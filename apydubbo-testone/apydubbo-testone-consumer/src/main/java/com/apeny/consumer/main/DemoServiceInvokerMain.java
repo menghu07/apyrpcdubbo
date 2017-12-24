@@ -82,11 +82,12 @@ public class DemoServiceInvokerMain {
         //泛化参数
         GenericService genericService = (GenericService) context.getBean("customService");
         Map<String, Object> person = new HashMap<>();
-        person.put("class", "com.apeny.consumer.domain.PersonImpl");
+//        person.put("class", "com.apeny.domain.impl.PersonImpl");
         person.put("name", "nike");
-        person.put("password", "york");
-        Object result = genericService.$invoke("findPerson", new String[]{"com.apeny.provider.domain.interfacepack.Person"}, new Object[]{person});
-        System.out.println("result generic service: " + result);
+        person.put("password", "york");new com.apeny.domain.impl.PersonImpl();
+        Object result = genericService.$invoke("findPerson", new String[]{"com.apeny.domain.Person"}, new Object[]{new com.apeny.domain.impl.PersonImpl()});
+//        Object result = genericService.$invoke("findPerson", new String[]{"java.lang.String"}, new Object[]{"jjjjj"});
+        System.out.println("result generic service: " + result.getClass());
 
     }
 }
