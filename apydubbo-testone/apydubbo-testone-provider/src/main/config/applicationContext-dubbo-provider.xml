@@ -8,12 +8,17 @@
     <dubbo:registry id="twomulticast" address="multicast://224.5.6.7:1234" />
     <dubbo:protocol name="dubbo" port="20880"/>
     <dubbo:protocol name="rmi" port="1099"/>
+    <dubbo:reference id="contextService" interface="com.apeny.api.service.contextservice.ContextService"/>
     <dubbo:service interface="com.apeny.api.service.DemoService" ref="demoService"/>
-    <bean id="demoService" class="com.apeny.provider.service.impl.DemoServiceImpl"/>
+    <bean id="demoService" class="com.apeny.provider.service.impl.DemoServiceImpl">
+        <property name="contextService" ref="contextService"/>
+    </bean>
 
     <!--多协议暴露，使用rmi-->
     <dubbo:service interface="com.apeny.api.service.DemoService" ref="rmiDemoService" protocol="rmi"/>
-    <bean id="rmiDemoService" class="com.apeny.provider.service.impl.DemoServiceImpl"/>
+    <bean id="rmiDemoService" class="com.apeny.provider.service.impl.DemoServiceImpl">
+        <property name="contextService" ref="contextService"/>
+    </bean>
 
     <!--只订阅不注册-->
     <!--<dubbo:registry id="onlysubcribe" address="multicast://224.111.2.3:9090" register="false"/>-->
@@ -43,4 +48,5 @@
 
     <bean id="customServiceImpl" class="com.apeny.provider.service.impl.genericservice.CustomGenericService"/>
     <dubbo:service id="customService" interface="com.apeny.api.service.generic.CustomService" ref="customServiceImpl"/>
+
 </beans>

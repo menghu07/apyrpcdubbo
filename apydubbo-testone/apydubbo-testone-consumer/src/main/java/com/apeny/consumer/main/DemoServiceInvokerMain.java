@@ -1,6 +1,8 @@
 package com.apeny.consumer.main;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
+import com.alibaba.dubbo.rpc.service.EchoService;
 import com.alibaba.dubbo.rpc.service.GenericService;
 import com.apeny.api.service.DemoService;
 import com.apeny.api.service.HelloService;
@@ -25,7 +27,8 @@ import java.util.Set;
  */
 public class DemoServiceInvokerMain {
     public static void main(String[] args) {
-        consume();
+//        consume();
+        examples();
     }
 
     private static void consume() {
@@ -84,10 +87,23 @@ public class DemoServiceInvokerMain {
         Map<String, Object> person = new HashMap<>();
 //        person.put("class", "com.apeny.domain.impl.PersonImpl");
         person.put("name", "nike");
-        person.put("password", "york");new com.apeny.domain.impl.PersonImpl();
+        person.put("password", "york");
         Object result = genericService.$invoke("findPerson", new String[]{"com.apeny.domain.Person"}, new Object[]{new com.apeny.domain.impl.PersonImpl()});
 //        Object result = genericService.$invoke("findPerson", new String[]{"java.lang.String"}, new Object[]{"jjjjj"});
         System.out.println("result generic service: " + result.getClass());
-
     }
+
+    /**
+     * dubbo 栗子
+     */
+    private static void examples() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-consumer.xml");
+        EchoService echoService = (EchoService) context.getBean("demoService");
+        Object result = echoService.$echo("ok");
+        System.out.println("result: " + result);
+        System.out.println("consumer side: " + RpcContext.getContext().isConsumerSide());
+        DemoService demoService = context.getBean("demoService", DemoService.class);
+        demoService.sayHello("hi lo");
+    }
+
 }

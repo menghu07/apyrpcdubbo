@@ -9,6 +9,7 @@
         <module>apydubbo-testone-consumer</module>
         <module>apydubbo-testone-provider</module>
         <module>apydubbo-testone-api</module>
+        <module>apydubbotestoneprovidertwo</module>
     </modules>
     <packaging>pom</packaging>
 
