@@ -32,4 +32,8 @@
     <dubbo:reference id="validation2" interface="com.apeny.api.service.argumentvalidation.Validation2Service"/>
 
     <dubbo:reference id="customService" interface="com.apeny.api.service.generic.CustomService" generic="true"/>
+
+    <!--async reference-->
+    <dubbo:reference interface="com.apeny.api.service.asyncservice.FooService" async="true" id="fooService" timeout="10000"/>
+    <dubbo:reference interface="com.apeny.api.service.asyncservice.BarService" async="true" id="barService" timeout="10000"/>
 </beans>

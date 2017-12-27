@@ -20,6 +20,7 @@ public class DemoServiceImpl implements DemoService {
             e.printStackTrace();
         }
         RpcContext rpcContext = RpcContext.getContext();
+        System.out.println("get attachment: " + rpcContext.getAttachment("key1"));
         System.out.println("consumer side: " + rpcContext.isConsumerSide() + ", provider side: " + rpcContext.isProviderSide());
         contextService.testTwo("ha ha ha");
         System.out.println("consumer side: " + rpcContext.isConsumerSide() + ", provider side: " + rpcContext.isProviderSide());

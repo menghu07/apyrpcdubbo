@@ -49,4 +49,11 @@
     <bean id="customServiceImpl" class="com.apeny.provider.service.impl.genericservice.CustomGenericService"/>
     <dubbo:service id="customService" interface="com.apeny.api.service.generic.CustomService" ref="customServiceImpl"/>
 
+    <!--concurrent execute service-->
+    <dubbo:service interface="com.apeny.api.service.asyncservice.FooService" ref="fooService"/>
+    <bean id="fooService" class="com.apeny.provider.service.impl.asyncservice.FooServiceImpl"/>
+    <dubbo:service interface="com.apeny.api.service.asyncservice.BarService" ref="barService"/>
+    <bean id="barService" class="com.apeny.provider.service.impl.asyncservice.BarServiceImpl"/>
+
+
 </beans>

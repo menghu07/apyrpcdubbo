@@ -15,10 +15,10 @@ public class DemoServiceProviderMain {
 
     private static void provide() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                new String[] {"config/applicationContext-dubbo-provider.xml"});
+                new String[] {"config/applicationContext-dubbo-one-provider.xml"});
         context.start();
         try {
-            context.getBean("contextService", ContextService.class).testTwo("hai zi");
+//            context.getBean("contextService", ContextService.class).testTwo("hai zi");
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();

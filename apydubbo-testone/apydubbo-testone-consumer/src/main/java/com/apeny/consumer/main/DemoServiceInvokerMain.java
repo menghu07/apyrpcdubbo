@@ -10,17 +10,24 @@ import com.apeny.api.service.IndexService;
 import com.apeny.api.service.RmiDemoService;
 import com.apeny.api.service.argumentvalidation.Validation1Service;
 import com.apeny.api.service.argumentvalidation.Validation2Service;
+import com.apeny.api.service.asyncservice.BarService;
+import com.apeny.api.service.asyncservice.FooService;
 import com.apeny.argument.ValidationParameter;
 import com.apeny.argument.ValidationParameter2;
 import com.apeny.consumer.domain.interfacepack.Person;
+import com.apeny.domain.asyncentity.Bar;
+import com.apeny.domain.asyncentity.Foo;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * Created by apeny on 2017/11/19.
@@ -28,7 +35,8 @@ import java.util.Set;
 public class DemoServiceInvokerMain {
     public static void main(String[] args) {
 //        consume();
-        examples();
+//        examples();
+        asyncExamples();
     }
 
     private static void consume() {
@@ -102,8 +110,32 @@ public class DemoServiceInvokerMain {
         Object result = echoService.$echo("ok");
         System.out.println("result: " + result);
         System.out.println("consumer side: " + RpcContext.getContext().isConsumerSide());
+        System.out.println("remote call before: ");
+        RpcContext.getContext().setAttachment("key1", "value1");
         DemoService demoService = context.getBean("demoService", DemoService.class);
         demoService.sayHello("hi lo");
     }
 
+    private static void asyncExamples() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-one-consumer.xml");
+        BarService barService = context.getBean("barService", BarService.class);
+        RpcContext rpcContext = RpcContext.getContext();
+        long begin = System.currentTimeMillis();
+        Bar bar = barService.findBar();
+        System.out.println("immediate bar: " + bar + ", use time: " + (System.currentTimeMillis() - begin));
+        Future<Bar> barFuture = rpcContext.getFuture();
+        FooService fooService = context.getBean("fooService", FooService.class);
+        long fooBegin = System.currentTimeMillis();
+        Foo foo = fooService.findFoo();
+        System.out.println("immediate foo " + foo + "use time: " + (System.currentTimeMillis() - fooBegin));
+        Future<Foo> fooFuture = rpcContext.getFuture();
+        try {
+            System.out.println(new Date() + "; foo " + fooFuture.get());
+            System.out.println(new Date() + "; bar " + barFuture.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 }
