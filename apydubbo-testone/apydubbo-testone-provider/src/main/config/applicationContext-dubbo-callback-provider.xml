@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="demo-provider" logger="log4j"/>
+    <!--既注册又订阅-->
+    <dubbo:registry id="twomulticast" address="multicast://224.5.6.7:1234" />
+    <dubbo:provider protocol="dubbo"/>
+    <bean class="com.apeny.provider.service.impl.callbackservice.CallbackServiceImpl" id="callbackService"></bean>
+    <dubbo:service interface="com.apeny.api.service.callbackservice.CallbackService" ref="callbackService" connections="1" callbacks="3">
+        <dubbo:method name="addListener">
+            <dubbo:argument index="1" callback="true"></dubbo:argument>
+        </dubbo:method>
+    </dubbo:service>
+</beans>

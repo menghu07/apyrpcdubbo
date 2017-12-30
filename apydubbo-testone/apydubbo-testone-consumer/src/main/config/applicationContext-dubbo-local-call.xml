@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="consumer-application"/>
+    <dubbo:registry address="multicast://224.5.6.7:1234"/>
+    <dubbo:provider protocol="injvm"></dubbo:provider>
+    <!--本地服务调用-->
+    <dubbo:reference interface="com.apeny.api.service.DemoService" id="demoServiceRef" timeout="10000" injvm="true"/>
+    <dubbo:service interface="com.apeny.api.service.DemoService" ref="demoService"/>
+    <bean id="demoService" class="com.apeny.service.impl.DemoServiceImpl"/>
+</beans>

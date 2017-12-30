@@ -7,21 +7,24 @@ import com.alibaba.dubbo.rpc.service.GenericService;
 import com.apeny.api.service.DemoService;
 import com.apeny.api.service.HelloService;
 import com.apeny.api.service.IndexService;
-import com.apeny.api.service.RmiDemoService;
 import com.apeny.api.service.argumentvalidation.Validation1Service;
 import com.apeny.api.service.argumentvalidation.Validation2Service;
 import com.apeny.api.service.asyncservice.BarService;
 import com.apeny.api.service.asyncservice.FooService;
+import com.apeny.api.service.callbackservice.CallbackService;
+import com.apeny.api.service.notifyservice.NotifyService;
 import com.apeny.argument.ValidationParameter;
 import com.apeny.argument.ValidationParameter2;
-import com.apeny.consumer.domain.interfacepack.Person;
 import com.apeny.domain.asyncentity.Bar;
 import com.apeny.domain.asyncentity.Foo;
+import com.apeny.service.impl.callbackservice.CallbackListenerImpl;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.rmi.RemoteException;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +39,10 @@ public class DemoServiceInvokerMain {
     public static void main(String[] args) {
 //        consume();
 //        examples();
-        asyncExamples();
+//        asyncExamples();
+//        localServiceCall();
+//        callbackService();
+        notifyService();
     }
 
     private static void consume() {
@@ -135,6 +141,54 @@ public class DemoServiceInvokerMain {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 本地服务调用
+     */
+    private static void localServiceCall() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-local-call.xml");
+        context.start();
+        DemoService demoService = context.getBean("demoServiceRef", DemoService.class);
+        System.out.println("i wanna see demo service result : " + demoService.sayHello("ha ha ha"));
+    }
+
+    /**
+     * 回调监听器添加
+     */
+    private static void callbackService() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-callback-consumer.xml");
+        CallbackService callbackService = context.getBean("callbackServiceRef", CallbackService.class);
+        callbackService.addListener("consumer key", new CallbackListenerImpl());
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void notifyService() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-notify-consumer.xml");
+        NotifyService notifyService = context.getBean("notifyServiceRef", NotifyService.class);
+        com.apeny.domain.Person person = notifyService.getPerson("no name", "no password");
+        System.out.println("person toString.." + person);
+        ConfigurableListableBeanFactory configurableBeanFactory = context.getBeanFactory();
+        notifyService = configurableBeanFactory.getBean("notifyServiceRef", NotifyService.class);
+        System.out.println("notifyService from configurableBeanFactory: " + notifyService);
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("serializable.txt"));
+            outputStream.writeObject(configurableBeanFactory);
+            outputStream.flush();
+            outputStream.close();
+            //deserialize
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("serializable.txt"));
+            ConfigurableListableBeanFactory factory = ConfigurableListableBeanFactory.class.cast(inputStream.readObject());
+            notifyService = factory.getBean("notifyServiceRef", NotifyService.class);
+            System.out.println("from deserialize factory: " + notifyService);
+            System.in.read();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
