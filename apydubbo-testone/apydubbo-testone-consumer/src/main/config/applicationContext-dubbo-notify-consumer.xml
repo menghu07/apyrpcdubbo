@@ -10,4 +10,5 @@
     <dubbo:reference interface="com.apeny.api.service.notifyservice.NotifyService" id="notifyServiceRef">
         <dubbo:method name="getPerson" onreturn="notify.onReturn" onthrow="notify.onThrow"/>
     </dubbo:reference>
+    <dubbo:reference interface="com.apeny.api.service.HelloService" id="stubHelloService"/>
 </beans>

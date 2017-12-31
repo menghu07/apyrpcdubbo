@@ -42,7 +42,8 @@ public class DemoServiceInvokerMain {
 //        asyncExamples();
 //        localServiceCall();
 //        callbackService();
-        notifyService();
+//        notifyService();
+        stubService();
     }
 
     private static void consume() {
@@ -191,5 +192,12 @@ public class DemoServiceInvokerMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void stubService() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-notify-consumer.xml");
+        HelloService helloService = context.getBean("stubHelloService", HelloService.class);
+        String result = helloService.limited("872938");
+        System.out.println("consumer has stub> " + result);
     }
 }

@@ -8,4 +8,6 @@
     <dubbo:provider protocol="dubbo"/>
     <bean class="com.apeny.provider.service.impl.notifyservice.NotifyServiceImpl" id="notifyService"/>
     <dubbo:service interface="com.apeny.api.service.notifyservice.NotifyService" ref="notifyService"/>
+    <bean class="com.apeny.provider.service.impl.HelloServiceImpl" id="helloService"/>
+    <dubbo:service interface="com.apeny.api.service.HelloService" ref="helloService" stub="true"/>
 </beans>
