@@ -12,7 +12,8 @@ public class DemoServiceProviderMain {
     public static void main(String[] args) {
 //        provide();
 //        providerCallback();
-        providerNotify();
+//        providerNotify();
+        providerMock();
     }
 
     private static void provide() {
@@ -40,6 +41,16 @@ public class DemoServiceProviderMain {
     private static void providerNotify() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
                 new String[] {"config/applicationContext-dubbo-notify-provider.xml"});
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void providerMock() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] {"config/applicationContext-dubbo-callback-provider.xml"});
         try {
             System.in.read();
         } catch (IOException e) {

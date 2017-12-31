@@ -13,4 +13,6 @@
             <dubbo:argument index="1" callback="true"></dubbo:argument>
         </dubbo:method>
     </dubbo:service>
+    <dubbo:service interface="com.apeny.api.service.HelloService" ref="mockHelloService" mock="true"/>
+    <bean class="com.apeny.provider.service.impl.mockservice.MockHelloServiceImpl" id="mockHelloService"/>
 </beans>

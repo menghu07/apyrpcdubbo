@@ -43,7 +43,8 @@ public class DemoServiceInvokerMain {
 //        localServiceCall();
 //        callbackService();
 //        notifyService();
-        stubService();
+//        stubService();
+        mockService();
     }
 
     private static void consume() {
@@ -199,5 +200,12 @@ public class DemoServiceInvokerMain {
         HelloService helloService = context.getBean("stubHelloService", HelloService.class);
         String result = helloService.limited("872938");
         System.out.println("consumer has stub> " + result);
+    }
+
+    private static void mockService() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-notify-consumer.xml");
+        HelloService helloService = context.getBean("stubHelloService", HelloService.class);
+        String result = helloService.limited("872938");
+        System.out.println("consumer has mock> " + result);
     }
 }
