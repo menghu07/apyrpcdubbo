@@ -13,7 +13,7 @@ public class MockHelloServiceImpl implements HelloService {
     @Override
     public String limited(String limited) {
         try {
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

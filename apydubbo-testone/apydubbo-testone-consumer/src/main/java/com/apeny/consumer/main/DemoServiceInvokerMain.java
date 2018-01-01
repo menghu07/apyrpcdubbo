@@ -29,8 +29,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by apeny on 2017/11/19.
@@ -44,7 +44,9 @@ public class DemoServiceInvokerMain {
 //        callbackService();
 //        notifyService();
 //        stubService();
-        mockService();
+//        mockService();
+//        delayService();
+        concurrentService();
     }
 
     private static void consume() {
@@ -203,9 +205,47 @@ public class DemoServiceInvokerMain {
     }
 
     private static void mockService() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-notify-consumer.xml");
-        HelloService helloService = context.getBean("stubHelloService", HelloService.class);
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-callback-consumer.xml");
+        HelloService helloService = context.getBean("mockHelloService", HelloService.class);
         String result = helloService.limited("872938");
         System.out.println("consumer has mock> " + result);
+    }
+
+    private static void delayService() {
+        while (true) {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+                ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-delay-consumer.xml");
+                HelloService helloService = context.getBean("delayHelloService", HelloService.class);
+                String result = helloService.limited("872938");
+                System.out.println("consumer has delay> " + result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static AtomicLong count = new AtomicLong(0);
+    private static void concurrentService() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/exampleconfig/applicationContext-dubbo-concurrent-consumer.xml");
+        ExecutorService executorService = new ThreadPoolExecutor(100, 100, 100, TimeUnit.SECONDS, new LinkedBlockingQueue());
+        while (true) {
+            try {
+//                TimeUnit.NANOSECONDS.sleep(1);
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        HelloService helloService = context.getBean("concurrentHelloService", HelloService.class);
+                        String result = helloService.limited("872938");
+                        if (result != null) {
+                            System.out.println("success: " + count.getAndAdd(1L));
+                        }
+                        System.out.println("consumer has concurent> " + result);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

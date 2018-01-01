@@ -13,12 +13,14 @@ public class DemoServiceProviderMain {
 //        provide();
 //        providerCallback();
 //        providerNotify();
-        providerMock();
+//        providerMock();
+//        provideDelay();
+        provideConcurrent();
     }
 
     private static void provide() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                new String[] {"config/applicationContext-dubbo-one-provider.xml"});
+                new String[]{"config/applicationContext-dubbo-one-provider.xml"});
         context.start();
         try {
 //            context.getBean("contextService", ContextService.class).testTwo("hai zi");
@@ -30,7 +32,7 @@ public class DemoServiceProviderMain {
 
     private static void providerCallback() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                new String[] {"config/applicationContext-dubbo-callback-provider.xml"});
+                new String[]{"config/applicationContext-dubbo-callback-provider.xml"});
         try {
             System.in.read();
         } catch (IOException e) {
@@ -40,7 +42,7 @@ public class DemoServiceProviderMain {
 
     private static void providerNotify() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                new String[] {"config/applicationContext-dubbo-notify-provider.xml"});
+                new String[]{"config/applicationContext-dubbo-notify-provider.xml"});
         try {
             System.in.read();
         } catch (IOException e) {
@@ -50,7 +52,28 @@ public class DemoServiceProviderMain {
 
     private static void providerMock() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                new String[] {"config/applicationContext-dubbo-callback-provider.xml"});
+                new String[]{"config/applicationContext-dubbo-callback-provider.xml"});
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void provideDelay() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[]{"config/applicationContext-dubbo-delay-provider.xml"});
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static void provideConcurrent() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[]{"config/exampleconfig/applicationContext-dubbo-concurrent-provider.xml"});
         try {
             System.in.read();
         } catch (IOException e) {
