@@ -6,5 +6,6 @@
     <dubbo:application name="consumer-application" logger="log4j"/>
     <dubbo:registry address="multicast://224.5.6.7:1234"/>
     <dubbo:provider protocol="dubbo" port="20881"/>
-    <dubbo:reference interface="com.apeny.api.service.HelloService" timeout="100000" id="concurrentHelloService" actives="10" connections="3"/>
+    <!--actives 每个客户端并发数线程个数，connections每个客户端最大连接数-->
+    <dubbo:reference interface="com.apeny.api.service.HelloService" timeout="10000" id="concurrentHelloService" actives="10" connections="3"/>
 </beans>

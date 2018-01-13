@@ -10,11 +10,21 @@ import java.io.IOException;
  */
 public class ProviderMain {
     public static void main(String[] args) {
-        startProvider();
+//        startProvider();
+        clusterForOne();
     }
 
     private static void startProvider() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/applicationContext-dubbo-provider.xml");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void clusterForOne() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/exampleconfig/applicationContext-dubbo-concurrent-provider.xml");
         try {
             System.in.read();
         } catch (IOException e) {

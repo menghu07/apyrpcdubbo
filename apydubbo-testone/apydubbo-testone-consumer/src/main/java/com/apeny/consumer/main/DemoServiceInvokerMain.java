@@ -226,21 +226,38 @@ public class DemoServiceInvokerMain {
     }
 
     static AtomicLong count = new AtomicLong(0);
+    static AtomicLong beanCount = new AtomicLong(0);
+
     private static void concurrentService() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/exampleconfig/applicationContext-dubbo-concurrent-consumer.xml");
-        ExecutorService executorService = new ThreadPoolExecutor(100, 100, 100, TimeUnit.SECONDS, new LinkedBlockingQueue());
+        final ThreadPoolExecutor executorService = new ThreadPoolExecutor(100, 100, 100, TimeUnit.SECONDS, new LinkedBlockingQueue());
+        int i = 0;
         while (true) {
             try {
-//                TimeUnit.NANOSECONDS.sleep(1);
+                TimeUnit.NANOSECONDS.sleep(1000_000L);
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
+                        long beginGetBean = System.currentTimeMillis();
                         HelloService helloService = context.getBean("concurrentHelloService", HelloService.class);
-                        String result = helloService.limited("872938");
-                        if (result != null) {
-                            System.out.println("success: " + count.getAndAdd(1L));
+                        System.out.println("use time get bean: " + (System.currentTimeMillis() - beginGetBean) + ", bean count="
+                                + beanCount.getAndAdd(1L) + ", bean to String" + helloService);
+                        long executeTime = System.currentTimeMillis();
+                        String result = null;
+                        try {
+                            result = helloService.limited("872938");
+                        } catch (Throwable ex) {
+                            System.out.println("until throw exception" + (System.currentTimeMillis() - executeTime) + "ex################" + ex);
+                            System.exit(1);
+                        } finally {
+                            System.out.println("i must know result, whether or not u throw exception: " + result);
                         }
-                        System.out.println("consumer has concurent> " + result);
+                        if (result != null) {
+                            System.out.println("execute time: " + (System.currentTimeMillis() - executeTime) + ", success: " + count.getAndAdd(1L) + ",Time: " + new Date()
+                                    + "\nexecutorService: 活跃线程数activeCount=" + executorService.getActiveCount() + ", 已完成任务数completedTaskCount="
+                                    + executorService.getCompletedTaskCount() + ",总的任务数taskCount=" + executorService.getTaskCount() + "待完成任务数queueSize=" + executorService.getQueue().size()
+                                    + result);
+                        }
                     }
                 });
             } catch (Exception e) {
