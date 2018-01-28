@@ -15,7 +15,8 @@ public class DemoServiceProviderMain {
 //        providerNotify();
 //        providerMock();
 //        provideDelay();
-        provideConcurrent();
+//        provideConcurrent();
+        provideTimeout();
     }
 
     private static void provide() {
@@ -74,6 +75,16 @@ public class DemoServiceProviderMain {
     private static void provideConcurrent() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
                 new String[]{"config/exampleconfig/applicationContext-dubbo-concurrent-provider.xml"});
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void provideTimeout() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[]{"config/exampleconfig/applicationContext-dubbo-timeout-provider.xml"});
         try {
             System.in.read();
         } catch (IOException e) {

@@ -46,7 +46,8 @@ public class DemoServiceInvokerMain {
 //        stubService();
 //        mockService();
 //        delayService();
-        concurrentService();
+//        concurrentService();
+        timeoutService();
     }
 
     private static void consume() {
@@ -264,5 +265,14 @@ public class DemoServiceInvokerMain {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * find bar
+     */
+    private static void timeoutService() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("config/exampleconfig/applicationContext-dubbo-timeout-consumer.xml");
+        BarService barService = context.getBean("barService", BarService.class);
+        System.out.println("find bar: " + barService.findBar());
     }
 }
